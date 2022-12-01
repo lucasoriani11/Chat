@@ -15,6 +15,7 @@
   function inviaAlServer(){
     let messaggio = document.getElementById("msg").value;
     ws.send( messaggio );  
+    console.log(messaggio);
   }
   function chiudiLaConnessione(){
     ws.close();  
