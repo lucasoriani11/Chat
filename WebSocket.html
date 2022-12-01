@@ -13,9 +13,9 @@
   ws.onmessage = gestoreRicezione;
 
   function inviaAlServer(){
-    let messaggio = document.getElementById("msg").value;
-    ws.send( messaggio );  
-    console.log(messaggio);
+    let messaggio = document.getElementById("msg").value; //prendo il testo tramite id
+    ws.send( messaggio );  //mando il messaggio al server
+    console.log(messaggio); //ho aggiunto un console.log per stampare il messaggio 
   }
   function chiudiLaConnessione(){
     ws.close();  
