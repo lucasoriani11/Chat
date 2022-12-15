@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script>
+        "use strict";
+        let ws = new WebSocket("ws://10.1.0.52:8080/serverchat/textChat"); 
+        function inviaAlServer(){
+            let login = "login|"+document.getElementById("nome").value+
+            "|"+document.getElementById("password").value;
+            ws.send(login);
+            console.log(login);
+        }
+
+    </script>
+</head>
+<body>
+    nome utente<input id="nome" type="text" /><br>
+    password<input id="password" type="text" /><br>
+    <br><button onclick="inviaAlServer()">login</button>
+</body>
+</html>
