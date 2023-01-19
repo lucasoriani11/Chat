@@ -1,23 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <script>
-        "use strict";
-        let ws = new WebSocket("ws://10.1.0.52:8080/serverchat/textChat"); 
-        function inviaAlServer(){
-            let login = "login|"+document.getElementById("nome").value+
-            "|"+document.getElementById("password").value;
-            ws.send(login);
-            console.log(login);
-        }
+<meta charset="UTF-8">
+<title>Login</title>
+<style>
+  #secondaPagina {
+    display : none;
+  }
+</style>
 
-    </script>
+<script>
+  "use strict";
+  let ws = new WebSocket("ws://10.1.0.52:8080/serverchat/textChat");
+
+  let x = document.getElementById("primaPagina");
+
+  let accesso= false;
+  
+  ws.onmessage = gestoreRicezione;
+
+  function gestoreRicezione(messaggio){    
+    if(messaggio.data == "auth|benvenuto"){
+      accesso = true;
+    }
+    if(accesso == true){
+      primaPagina.style.display = "none";
+      secondaPagina.style.display = "block";
+      document.getElementById("stampa").textContent += messaggio.data +"\n";
+    }
+    
+  }
+  function inviaAlServer(){
+    let messaggio = "login|"+document.getElementById("username").value+"|"
+    +document.getElementById("password").value;
+    console.log(messaggio)
+    ws.send(messaggio);  
+  }
+  function inviaMessaggio(){
+    let messaggio = document.getElementById("testo").value;
+    ws.send(messaggio);
+  }
+
+
+</script>
 </head>
 <body>
-    nome utente<input id="nome" type="text" /><br>
-    password<input id="password" type="text" /><br>
-    <br><button onclick="inviaAlServer()">login</button>
+    <div id="primaPagina">
+      <b>USERNAME</b><input id="username" type="text" ></br>
+      <b>PASSWORD</b><input id="password" type="text" ></br>
+      </br><button onClick="inviaAlServer()" type="submit">Login</button></br>
+    </div>
+    <div id ="secondaPagina">
+      <textarea readonly id="stampa"></textarea><br>
+      <input id="testo" type="text" >
+      <button onClick="inviaMessaggio()" type="submit">Invia</button>
+    </div>
+    
 </body>
 </html>
