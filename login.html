@@ -17,28 +17,36 @@
 
   let accesso= false;
   
+  let data = new Date();
+  
+
   ws.onmessage = gestoreRicezione;
 
-  function gestoreRicezione(messaggio){    
-    if(messaggio.data == "auth|benvenuto"){
+  function gestoreRicezione(messaggioLogin){    
+    if(messaggioLogin.data == "auth|benvenuto"){
       accesso = true;
     }
     if(accesso == true){
       primaPagina.style.display = "none";
       secondaPagina.style.display = "block";
-      document.getElementById("stampa").textContent += messaggio.data +"\n";
+    } 
+    let messaggio = messaggioLogin.data.split("|");
+    if(messaggio[0] == "msg"){
+      document.getElementById("stampa").textContent += "@"+ messaggio[2] + ": "+ messaggio[3];
+    }else{
+      document.getElementById("stampa").textContent += messaggioLogin.data +"\n";
     }
     
   }
   function inviaAlServer(){
-    let messaggio = "login|"+document.getElementById("username").value+"|"
+    let messaggioLogin = "login|"+document.getElementById("username").value+"|"
     +document.getElementById("password").value;
-    console.log(messaggio)
-    ws.send(messaggio);  
+    console.log(messaggioLogin)
+    ws.send(messaggioLogin);  
   }
   function inviaMessaggio(){
-    let messaggio = document.getElementById("testo").value;
-    ws.send(messaggio);
+    let messaggioRisposta ="msg|"+data.getHours()+":"+data.getMinutes()+"|"+ document.getElementById("username").value+"|"+ document.getElementById("testo").value;
+    ws.send(messaggioRisposta);
   }
 
 
@@ -52,7 +60,7 @@
     </div>
     <div id ="secondaPagina">
       <textarea readonly id="stampa"></textarea><br>
-      <input id="testo" type="text" >
+      <input id="testo" type="text">
       <button onClick="inviaMessaggio()" type="submit">Invia</button>
     </div>
     

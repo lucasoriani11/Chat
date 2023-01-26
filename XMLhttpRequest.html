@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Richiesta via http</title>
+<script type="text/javascript">
+"use strict";
+
+let httpRequest;
+
+
+function statoCambiato(){
+
+  if (httpRequest.readyState === XMLHttpRequest.DONE) {
+    
+    if(httpRequest.status == 200){
+      document.getElementById("chiamato").value = httpRequest.responseText;
+    }else{
+      document.getElementById("chiamato").value = "errore "+httpRequest.status;
+    }
+
+  }
+  
+}
+
+function inverti(){
+    
+  let nome = document.getElementById("chiamato").value;
+
+  httpRequest = new XMLHttpRequest();
+
+  httpRequest.onreadystatechange = statoCambiato;
+  
+  httpRequest.open('GET', 'https://kili.aspix.it/edoardo/gastone.php?name='+ nome);
+  
+  httpRequest.send();
+
+}
+
+</script>
+</head>
+<body>
+    <p>nome</p><input type="text" id="chiamato">
+    <button onclick="inverti()">inverti</button>
+</body>
+</html>
