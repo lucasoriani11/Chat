@@ -7,6 +7,50 @@
   #secondaPagina {
     display : none;
   }
+  #stampa{
+    height: 300px;
+    width: 300px;
+    border: double grey;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+  }
+  #autenticazioni{
+    height: 300px;
+    width: 300px;
+    border: outset grey;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+  }
+  #password{
+    margin-top: 10px;
+  }
+  #clicca{
+    margin-top: 2vh;
+    width: 19vw;
+  }
+  #usnm{
+    margin-right: 2vw;
+    color: white;
+  }
+  #psw{
+    margin-right: 2.1vw;
+    color: white;
+  }
+ #testo{
+  margin-top: 2vh;
+  width: 15vw;
+  height: 5vh;
+  border: groove grey;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+ }
+ #invia{
+  width: 6vw;
+  height: 3vh;
+ }
+ body{
+  background-image: url("sfondo.jpg");
+ }
 </style>
 
 <script>
@@ -22,22 +66,22 @@
 
   ws.onmessage = gestoreRicezione;
 
-  function gestoreRicezione(messaggioLogin){    
+  function gestoreRicezione(messaggioLogin){   
     if(messaggioLogin.data == "auth|benvenuto"){
       accesso = true;
-    }
+    } 
     if(accesso == true){
       primaPagina.style.display = "none";
       secondaPagina.style.display = "block";
     } 
     let messaggio = messaggioLogin.data.split("|");
     if(messaggio[0] == "msg"){
-      document.getElementById("stampa").textContent += "@"+ messaggio[2] + ": "+ messaggio[3];
+      document.getElementById("stampa").textContent += "@"+ messaggio[2] + ": "+ messaggio[3] +"\n";
     }else{
-      document.getElementById("stampa").textContent += messaggioLogin.data +"\n";
+      document.getElementById("autenticazioni").textContent += messaggioLogin.data +"\n";
     }
-    
   }
+    
   function inviaAlServer(){
     let messaggioLogin = "login|"+document.getElementById("username").value+"|"
     +document.getElementById("password").value;
@@ -54,15 +98,21 @@
 </head>
 <body>
     <div id="primaPagina">
-      <b>USERNAME</b><input id="username" type="text" ></br>
-      <b>PASSWORD</b><input id="password" type="text" ></br>
-      </br><button onClick="inviaAlServer()" type="submit">Login</button></br>
+      <b id="usnm">USERNAME</b><input id="username" type="text" >
+      <div><b id="psw">PASSWORD</b><input id="password" type="text" ></div>
+      <div><button onClick="inviaAlServer()" type="submit" id="clicca">Login</button></div>
     </div>
     <div id ="secondaPagina">
-      <textarea readonly id="stampa"></textarea><br>
-      <input id="testo" type="text">
-      <button onClick="inviaMessaggio()" type="submit">Invia</button>
+      <div id="lista">
+      <textarea readonly id="stampa"></textarea>
+      <textarea readonly id="autenticazioni"></textarea>
     </div>
+      <input id="testo" type="text">
+      <button onClick="inviaMessaggio()" type="submit" id="invia">Invia</button>
+      </div>
+      
+    </div>
+    
     
 </body>
 </html>

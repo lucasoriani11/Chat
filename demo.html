@@ -9,7 +9,7 @@
     document.getElementById("ricezione").textContent += messaggio.data + "\n"; 
   }
 
-  let ws = new WebSocket("ws://10.1.0.52:8080/serverchat/text/echo"); 
+  let ws = new WebSocket("ws://10.1.0.105:7000/serverChat/echoServer.js"); 
   ws.onmessage = gestoreRicezione;
 
   function inviaAlServer(){
