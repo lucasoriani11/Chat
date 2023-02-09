@@ -41,21 +41,35 @@
   width: 15vw;
   height: 5vh;
   border: groove grey;
+  border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.3);
   color: white;
  }
  #invia{
-  width: 6vw;
-  height: 3vh;
+  width: 8vw;
+  height: 4vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: 3px solid white;
+  border-radius: 15px;
  }
  body{
   background-image: url("sfondo.jpg");
+ }
+ #Home{
+  margin-left: 41vw;
+  height: 8vh;
+  width: 10vw;
+  border: 5px solid white;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
  }
 </style>
 
 <script>
   "use strict";
-  let ws = new WebSocket("ws://10.1.0.52:8080/serverchat/textChat");
+  let ws = new WebSocket("ws://10.1.0.188:7000/serverChat/echoServer");
 
   let x = document.getElementById("primaPagina");
 
@@ -76,9 +90,11 @@
     } 
     let messaggio = messaggioLogin.data.split("|");
     if(messaggio[0] == "msg"){
-      document.getElementById("stampa").textContent += "@"+ messaggio[2] + ": "+ messaggio[3] +"\n";
-    }else{
-      document.getElementById("autenticazioni").textContent += messaggioLogin.data +"\n";
+      document.getElementById("stampa").textContent += "@"+ messaggio[2] + ":"+ messaggio[3] +"\n";
+      stampa.scrollTop = stampa.scrollHeight;
+    }
+    if(messaggio[0] == "lista"){
+      document.getElementById("autenticazioni").textContent = messaggioLogin.data +"\n";
     }
   }
     
@@ -90,7 +106,11 @@
   }
   function inviaMessaggio(){
     let messaggioRisposta ="msg|"+data.getHours()+":"+data.getMinutes()+"|"+ document.getElementById("username").value+"|"+ document.getElementById("testo").value;
-    ws.send(messaggioRisposta);
+    ws.send(messaggioRisposta)
+    testo.value = " ";
+  }
+  function TornaAlLogin(){
+    location.reload();
   }
 
 
@@ -109,8 +129,8 @@
     </div>
       <input id="testo" type="text">
       <button onClick="inviaMessaggio()" type="submit" id="invia">Invia</button>
+      <button onclick="TornaAlLogin()" id="Home">HOME</button>
       </div>
-      
     </div>
     
     
